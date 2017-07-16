@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AspNetCoreVideo.ViewModels.VideoViewModel>
+﻿@model IEnumerable<VideoViewModel>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Video</title>
-</head>
-<body>
+@{ 
+    ViewBag.Title = "Home";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
     <table>
         @foreach (var video in Model)
         {
@@ -18,5 +18,6 @@
 
     </table>
  
-</body>
-</html>
+@section footer{
+    <div>This is the Index footer</div>
+}
