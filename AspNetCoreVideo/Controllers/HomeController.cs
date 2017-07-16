@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using AspNetCoreVideo.Entities;
 using AspNetCoreVideo.Services;
 using AspNetCoreVideo.ViewModels;
 using System;
@@ -25,9 +26,33 @@ namespace AspNetCoreVideo.Controllers
             new VideoViewModel {
                 Id = video.Id,
                 Title = video.Title,
-                Genre = Enum.GetName(typeof(Genres), video.GenreId)
+                Genre = video.Genre.ToString()
             });
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(VideoEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                 var video = new Video
+                 {
+                    Title = model.Title,
+                    Genre = model.Genre
+                 };
+
+                _videos.Add(video);
+                return RedirectToAction("Details", new { id = video.Id });
+            }
+
+            return View();
         }
 
         public IActionResult Details(int id)
@@ -41,7 +66,7 @@ namespace AspNetCoreVideo.Controllers
                 {
                     Id = model.Id,
                     Title = model.Title,
-                    Genre = Enum.GetName(typeof(Genres), model.GenreId)
+                    Genre = model.Genre.ToString()
                 }
             );
         }
