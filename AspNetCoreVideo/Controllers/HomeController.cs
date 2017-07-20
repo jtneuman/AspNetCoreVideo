@@ -49,7 +49,7 @@ namespace AspNetCoreVideo.Controllers
                  };
 
                 _videos.Add(video);
-             //   _videos.Commit();  step 7 but causing error for some reason
+                _videos.Commit();  // step 7 but causing error for some reason NOTE: 7/20/17 now working with no changes?
                 return RedirectToAction("Details", new { id = video.Id });
             }
 
