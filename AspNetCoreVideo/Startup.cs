@@ -13,6 +13,8 @@ using AspNetCoreVideo.Services;
 using Microsoft.AspNetCore.Routing;
 using AspNetCoreVideo.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AspNetCoreVideo.Entities;
 
 namespace AspNetCoreVideo
 {
@@ -34,12 +36,16 @@ namespace AspNetCoreVideo
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
             var conn = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<VideoDbContext>(options =>
                 options.UseSqlServer(conn));
 
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<VideoDbContext>();
+           
             services.AddMvc();
             services.AddSingleton<IVideoData, SqlVideoData>();
             services.AddSingleton(provider => Configuration);
@@ -59,6 +65,7 @@ namespace AspNetCoreVideo
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseIdentity();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

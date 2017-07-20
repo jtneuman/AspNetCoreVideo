@@ -5,11 +5,13 @@ using AspNetCoreVideo.ViewModels;
 using System;
 using System.Linq;
 using AspNetCoreVideo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AspNetCoreVideo.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private IVideoData _videos;
@@ -20,6 +22,7 @@ namespace AspNetCoreVideo.Controllers
         }
 
         // GET: /<controller>/
+        [AllowAnonymous]
         public ViewResult Index()
         {
             var model = _videos.GetAll().Select(video =>
